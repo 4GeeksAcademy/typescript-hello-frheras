@@ -5,6 +5,7 @@
 const FILAS = 8;
 const COLUMNAS = 10;
 
+// Crea la sala: matriz de FILAS x COLUMNAS con todos los asientos libres (0).
 function inicializarSala(): number[][] {
   const sala: number[][] = [];
   for (let f = 0; f < FILAS; f++) {
@@ -17,24 +18,22 @@ function inicializarSala(): number[][] {
   return sala;
 }
 
-function reservarAsiento(sala: number[][], fila: number, columna: number): boolean {
+// Reserva un asiento (0 -> 1) si existe y está libre; devuelve el mensaje del resultado.
+function reservarAsiento(sala: number[][], fila: number, columna: number): string {
   if (fila < 0 || fila >= FILAS) {
-    console.log(`❌ Error: la fila ${fila} no existe.`);
-    return false;
+    return `❌ Error: la fila ${fila} no existe.`;
   }
   if (columna < 0 || columna >= COLUMNAS) {
-    console.log(`❌ Error: la columna ${columna} no existe.`);
-    return false;
+    return `❌ Error: la columna ${columna} no existe.`;
   }
   if (sala[fila][columna] === 1) {
-    console.log(`❌ El asiento [${fila},${columna}] ya está ocupado.`);
-    return false;
+    return `❌ El asiento [${fila},${columna}] ya está ocupado.`;
   }
   sala[fila][columna] = 1;
-  console.log(`✅ Asiento [${fila},${columna}] reservado.`);
-  return true;
+  return `✅ Asiento [${fila},${columna}] reservado.`;
 }
 
+// Libera un asiento (1 -> 0) si existe y estaba ocupado; devuelve true si se pudo.
 function cancelarReserva(sala: number[][], fila: number, columna: number): boolean {
   if (fila < 0 || fila >= FILAS) { console.log("❌ Fila inválida."); return false; }
   if (columna < 0 || columna >= COLUMNAS) { console.log("❌ Columna inválida."); return false; }
@@ -47,6 +46,7 @@ function cancelarReserva(sala: number[][], fila: number, columna: number): boole
   return true;
 }
 
+// Cuenta los asientos libres (0) de toda la sala.
 function contarLibres(sala: number[][]): number {
   let libres = 0;
   for (let f = 0; f < FILAS; f++)
@@ -55,6 +55,7 @@ function contarLibres(sala: number[][]): number {
   return libres;
 }
 
+// Cuenta los asientos ocupados (1) de toda la sala.
 function contarOcupados(sala: number[][]): number {
   let ocupados = 0;
   for (let f = 0; f < FILAS; f++)
@@ -63,14 +64,27 @@ function contarOcupados(sala: number[][]): number {
   return ocupados;
 }
 
-function buscarAsientosContiguos(sala: number[][]): { fila: number; columna: number } | null {
-  for (let f = 0; f < FILAS; f++)
-    for (let c = 0; c < COLUMNAS - 1; c++)
-      if (sala[f][c] === 0 && sala[f][c + 1] === 0)
-        return { fila: f, columna: c };
+// Devuelve [ocupados, libres] con el recuento total de la sala.
+function contarAsientos(sala: number[][]): number[] {
+  return [contarOcupados(sala), contarLibres(sala)];
+}
+
+// Busca el primer par de asientos libres juntos en una fila; devuelve [fila, columna] o null.
+function buscarAsientosContiguos(sala: number[][]): number[] | null {
+  for (let f = 0; f < FILAS; f++) {
+    // COLUMNAS - 1 para no salirnos de la fila al mirar el asiento c + 1
+    for (let c = 0; c < COLUMNAS - 1; c++) {
+      if (sala[f][c] === 0 && sala[f][c + 1] === 0) {
+        console.log(`🔍 Asientos libres juntos: fila ${f}, columnas ${c} y ${c + 1}.`);
+        return [f, c];
+      }
+    }
+  }
+  console.log("❌ No hay dos asientos libres contiguos en ninguna fila.");
   return null;
 }
 
+// Imprime la sala en consola con L (libre) y X (ocupado), con números de fila y columna.
 function mostrarSala(sala: number[][]): void {
   let encabezado = "   ";
   for (let c = 0; c < COLUMNAS; c++) encabezado += ` ${c}`;
@@ -82,6 +96,56 @@ function mostrarSala(sala: number[][]): void {
       linea += sala[f][c] === 0 ? " L" : " X";
     console.log(linea);
   }
+}
+
+// Muestra la sala, el recuento de asientos y la búsqueda de una pareja de asientos juntos.
+function mostrarInforme(sala: number[][]): void {
+  mostrarSala(sala);
+  const [ocupados, libres] = contarAsientos(sala);
+  console.log(`📊 Ocupados: ${ocupados} | Libres: ${libres}`);
+  buscarAsientosContiguos(sala);
+}
+
+// Ocupa todos los asientos de la sala.
+function llenarSala(sala: number[][]): void {
+  for (let f = 0; f < FILAS; f++)
+    for (let c = 0; c < COLUMNAS; c++)
+      reservarAsiento(sala, f, c);
+}
+
+// Pruebas por consola: sala vacía, parcial, casi llena y llena.
+function ejecutarPruebas(): void {
+  console.log("\n=== Escenario 1: sala vacía ===");
+  const vacia = inicializarSala();
+  mostrarInforme(vacia);
+
+  console.log("\n=== Escenario 2: sala parcialmente ocupada ===");
+  const parcial = inicializarSala();
+  console.log(reservarAsiento(parcial, 0, 0));
+  console.log(reservarAsiento(parcial, 0, 1));
+  console.log(reservarAsiento(parcial, 0, 1)); // ya ocupado
+  console.log(reservarAsiento(parcial, 8, 0)); // fila inexistente
+  console.log(reservarAsiento(parcial, 3, 12)); // columna inexistente
+  console.log(reservarAsiento(parcial, 1, 4));
+  mostrarInforme(parcial);
+
+  console.log("\n=== Escenario 3: sala casi llena (solo asientos sueltos) ===");
+  const casiLlena = inicializarSala();
+  llenarSala(casiLlena);
+  cancelarReserva(casiLlena, 0, 0);
+  cancelarReserva(casiLlena, 2, 5);
+  cancelarReserva(casiLlena, 4, 9);
+  cancelarReserva(casiLlena, 7, 3);
+  mostrarInforme(casiLlena);
+  console.log("--- Se libera el asiento [7,4], junto al [7,3] ---");
+  cancelarReserva(casiLlena, 7, 4);
+  mostrarInforme(casiLlena);
+
+  console.log("\n=== Escenario 4: sala completamente llena ===");
+  const llena = inicializarSala();
+  llenarSala(llena);
+  console.log(reservarAsiento(llena, 3, 3)); // ya ocupado
+  mostrarInforme(llena);
 }
 
 // ============================================================
@@ -260,8 +324,8 @@ if (typeof document !== "undefined") {
         return;
       }
 
-      seleccionados.add(`${pareja.fila}-${pareja.columna}`);
-      seleccionados.add(`${pareja.fila}-${pareja.columna + 1}`);
+      seleccionados.add(`${pareja[0]}-${pareja[1]}`);
+      seleccionados.add(`${pareja[0]}-${pareja[1] + 1}`);
       renderizarSala();
       actualizarPanel();
       actualizarCheckout();
@@ -279,6 +343,9 @@ if (typeof document !== "undefined") {
     actualizarCheckout();
     console.log("🎬 Cines Felix — Interfaz cargada con 3 estados.");
   });
+} else {
+  // Ejecución en consola (npm run console): lanzamos las pruebas
+  ejecutarPruebas();
 }
 
 export {};
