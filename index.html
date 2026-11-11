@@ -3,23 +3,20 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hello World with Typescript</title>
+    <title>Cinema Seat Manager 🎬</title>
   </head>
-  <body class="min-h-screen bg-slate-100 text-slate-900">
-    <main class="mx-auto flex min-h-screen max-w-2xl flex-col items-center justify-center gap-6 p-6">
-      <h1 class="text-4xl font-bold tracking-tight">Hello World with Typescript</h1>
+  <body class="min-h-screen bg-slate-900 text-slate-100">
+    <main class="mx-auto flex min-h-screen max-w-3xl flex-col items-center gap-6 p-6">
+      <h1 class="text-4xl font-bold tracking-tight">🎬 Cinema Seat Manager</h1>
+      <p class="text-slate-400">Haz clic en un asiento libre (verde) para ocuparlo (rojo)</p>
 
-      <section class="w-full max-w-md overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-        <img
-          src="/rigo-baby.jpg"
-          alt="Hello Rigo"
-          class="h-64 w-full bg-slate-50 object-contain p-2"
-        />
-        <div class="p-5">
-          <h2 class="text-xl font-semibold text-slate-900">Hello Rigo</h2>
-          <p id="app" class="mt-2 text-sm text-slate-600"></p>
-        </div>
-      </section>
+      <!-- Aquí se pintará la sala con TypeScript -->
+      <div id="sala-container" class="flex flex-col items-center gap-1"></div>
+
+      <!-- Panel de estadísticas -->
+      <div id="panel" class="rounded-xl border border-slate-700 bg-slate-800 px-6 py-3 text-center text-sm text-slate-300">
+        Cargando...
+      </div>
     </main>
     <script type="module" src="/src/main.ts"></script>
   </body>
