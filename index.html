@@ -1,23 +1,266 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Cinema Seat Manager 🎬</title>
+    <title>Cines Felix — Iron Man | Reserva de asientos</title>
   </head>
-  <body class="min-h-screen bg-slate-900 text-slate-100">
-    <main class="mx-auto flex min-h-screen max-w-3xl flex-col items-center gap-6 p-6">
-      <h1 class="text-4xl font-bold tracking-tight">🎬 Cinema Seat Manager</h1>
-      <p class="text-slate-400">Haz clic en un asiento libre (verde) para ocuparlo (rojo)</p>
-
-      <!-- Aquí se pintará la sala con TypeScript -->
-      <div id="sala-container" class="flex flex-col items-center gap-1"></div>
-
-      <!-- Panel de estadísticas -->
-      <div id="panel" class="rounded-xl border border-slate-700 bg-slate-800 px-6 py-3 text-center text-sm text-slate-300">
-        Cargando...
+  <body
+    class="min-h-screen bg-[#070708] bg-[radial-gradient(ellipse_at_top,#2a0a0e_0%,#070708_60%)] text-zinc-100 antialiased"
+  >
+    <!-- ════════════════════ HEADER ════════════════════ -->
+    <header class="border-b border-amber-400/10">
+      <div class="mx-auto flex max-w-[1180px] items-center gap-4 px-4 py-3 sm:px-6">
+        <!-- Logotipo: carrete de película -->
+        <div class="flex items-center gap-2.5">
+          <svg viewBox="0 0 32 32" class="h-9 w-9" aria-hidden="true">
+            <defs>
+              <linearGradient id="logo-grad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#f59e0b" />
+                <stop offset="1" stop-color="#dc2626" />
+              </linearGradient>
+            </defs>
+            <rect width="32" height="32" rx="9" fill="url(#logo-grad)" />
+            <circle cx="16" cy="16" r="10" fill="none" stroke="white" stroke-width="1.8" />
+            <circle cx="16" cy="16" r="2.2" fill="white" />
+            <circle cx="16" cy="10.5" r="1.8" fill="white" />
+            <circle cx="21.2" cy="14.3" r="1.8" fill="white" />
+            <circle cx="19.2" cy="20.4" r="1.8" fill="white" />
+            <circle cx="12.8" cy="20.4" r="1.8" fill="white" />
+            <circle cx="10.8" cy="14.3" r="1.8" fill="white" />
+          </svg>
+          <span class="text-lg font-bold tracking-tight text-white">Cines Felix</span>
+        </div>
+        <span class="hidden h-4 w-px bg-amber-400/20 sm:block"></span>
+        <p class="hidden text-[11px] text-zinc-400 sm:block">
+          <span class="mr-2 tracking-[0.25em] text-amber-400/70">CINE</span>Sala 01 · 80 plazas
+        </p>
       </div>
-    </main>
+    </header>
+
+    <div class="mx-auto max-w-[1180px] space-y-4 px-4 py-6 sm:px-6">
+      <!-- ════════════════════ BANNER DE PELÍCULA ════════════════════ -->
+      <section class="relative overflow-hidden rounded-3xl border border-amber-400/15 shadow-2xl shadow-black/50">
+        <!-- Fondo: póster difuminado -->
+        <img
+          src="https://image.tmdb.org/t/p/w342/78lPtwv72eTNqFW9COBYI0dWDJa.jpg"
+          alt=""
+          class="absolute inset-0 h-full w-full scale-125 object-cover opacity-30 blur-2xl"
+          aria-hidden="true"
+          onerror="this.style.display='none'"
+        />
+        <div class="absolute inset-0 bg-gradient-to-r from-black/85 via-black/55 to-red-950/50"></div>
+
+        <!-- Decoración: reactor -->
+        <svg
+          viewBox="0 0 200 200"
+          class="absolute -right-6 top-1/2 hidden h-60 w-60 -translate-y-1/2 opacity-60 drop-shadow-[0_0_16px_rgba(251,191,36,0.45)] lg:block"
+          aria-hidden="true"
+        >
+          <defs>
+            <radialGradient id="core-grad">
+              <stop offset="0" stop-color="#fef3c7" />
+              <stop offset="0.6" stop-color="#fbbf24" />
+              <stop offset="1" stop-color="#b45309" />
+            </radialGradient>
+          </defs>
+          <circle cx="100" cy="100" r="92" fill="none" stroke="#fbbf24" stroke-width="1.5" />
+          <circle cx="100" cy="100" r="76" fill="none" stroke="#fbbf24" stroke-width="3" stroke-opacity="0.7" />
+          <circle cx="100" cy="100" r="40" fill="none" stroke="#fbbf24" stroke-width="2" />
+          <g stroke="#fbbf24" stroke-width="7" stroke-linecap="round">
+            <line x1="100" y1="30" x2="100" y2="52" />
+            <line x1="100" y1="30" x2="100" y2="52" transform="rotate(36 100 100)" />
+            <line x1="100" y1="30" x2="100" y2="52" transform="rotate(72 100 100)" />
+            <line x1="100" y1="30" x2="100" y2="52" transform="rotate(108 100 100)" />
+            <line x1="100" y1="30" x2="100" y2="52" transform="rotate(144 100 100)" />
+            <line x1="100" y1="30" x2="100" y2="52" transform="rotate(180 100 100)" />
+            <line x1="100" y1="30" x2="100" y2="52" transform="rotate(216 100 100)" />
+            <line x1="100" y1="30" x2="100" y2="52" transform="rotate(252 100 100)" />
+            <line x1="100" y1="30" x2="100" y2="52" transform="rotate(288 100 100)" />
+            <line x1="100" y1="30" x2="100" y2="52" transform="rotate(324 100 100)" />
+          </g>
+          <circle cx="100" cy="100" r="16" fill="url(#core-grad)" />
+        </svg>
+
+        <div class="relative flex flex-col gap-6 p-6 sm:flex-row sm:p-8">
+          <div class="h-[225px] w-[150px] shrink-0 overflow-hidden rounded-xl bg-zinc-900 shadow-2xl shadow-black/70 ring-1 ring-amber-400/30">
+            <img
+              src="https://image.tmdb.org/t/p/w342/78lPtwv72eTNqFW9COBYI0dWDJa.jpg"
+              alt="Iron Man (2008) poster"
+              class="h-full w-full object-cover"
+              onerror="this.style.display='none'"
+            />
+          </div>
+
+          <div class="min-w-0 max-w-xl">
+            <p class="text-[10px] font-semibold tracking-[0.35em] text-amber-400">EN CARTELERA</p>
+            <h2
+              class="mt-2 bg-gradient-to-r from-amber-200 via-amber-400 to-red-500 bg-clip-text text-4xl font-black uppercase tracking-tight text-transparent sm:text-5xl"
+            >
+              Iron Man
+            </h2>
+            <div class="mt-3 flex flex-wrap items-center gap-2 text-[11px]">
+              <span class="rounded-full border border-amber-400/30 px-2.5 py-0.5 text-amber-200">Ciencia ficción</span>
+              <span class="rounded-full border border-amber-400/30 px-2.5 py-0.5 text-amber-200">Acción</span>
+              <span class="rounded-full border border-amber-400/30 px-2.5 py-0.5 text-amber-200">Aventura</span>
+              <span class="text-zinc-400">2008 · 2 h 06 min · PG-13</span>
+            </div>
+            <p class="mt-4 text-sm leading-relaxed text-zinc-300">
+              Tony Stark, un multimillonario fabricante de armas, es secuestrado y obligado a construir un arma
+              devastadora. En su lugar, crea una armadura de alta tecnología y jura proteger al mundo como Iron Man.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ════════════════════ SALA + CHECKOUT ════════════════════ -->
+      <main class="grid gap-4 lg:grid-cols-[minmax(0,1fr)_340px]">
+        <!-- ─────── Sala de butacas ─────── -->
+        <section
+          class="rounded-2xl border border-amber-400/15 bg-gradient-to-b from-[#16090d]/90 to-[#0b0a0c]/90 p-5 shadow-xl shadow-black/40"
+        >
+          <div class="flex items-center justify-between border-b border-amber-400/10 pb-3">
+            <h3 class="flex items-center gap-2 text-lg font-semibold text-white">
+              <svg viewBox="0 0 24 24" class="h-5 w-5 text-amber-400" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                <rect x="3" y="4" width="7" height="11" rx="2" /><rect x="14" y="4" width="7" height="11" rx="2" />
+                <path d="M3 19h18" stroke-linecap="round" />
+              </svg>
+              Elige tus asientos
+            </h3>
+            <p class="flex items-center gap-1.5 text-[11px] text-zinc-400">
+              <span class="h-1.5 w-1.5 rounded-full bg-emerald-400"></span>
+              <span id="panel">— disponibles</span>
+            </p>
+          </div>
+
+          <!-- Pantalla en perspectiva con haz de luz -->
+          <div class="relative mx-auto mt-6 w-full max-w-[600px]">
+            <div class="drop-shadow-[0_0_18px_rgba(251,191,36,0.55)]">
+              <div
+                class="relative mx-auto h-10 w-[88%] bg-gradient-to-b from-amber-100 via-amber-300 to-amber-500/70 [clip-path:polygon(6%_0,94%_0,100%_100%,0_100%)]"
+              >
+                <p class="absolute inset-0 flex items-center justify-center text-[10px] font-bold tracking-[0.5em] text-amber-950/70">
+                  PANTALLA
+                </p>
+              </div>
+            </div>
+            <div
+              class="pointer-events-none absolute inset-x-0 top-10 h-40 bg-gradient-to-b from-amber-300/25 via-amber-300/5 to-transparent [clip-path:polygon(6%_0,94%_0,100%_100%,0_100%)]"
+            ></div>
+          </div>
+
+          <!-- Sala (la pinta main.ts) -->
+          <div class="mt-4 overflow-x-auto pb-2">
+            <div id="sala-container" class="mx-auto flex w-fit flex-col gap-1.5"></div>
+          </div>
+
+          <!-- Pie: botón + leyenda -->
+          <div class="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-amber-400/10 pt-4">
+            <div class="flex items-center gap-3">
+              <button
+                id="btn-juntos"
+                type="button"
+                class="inline-flex items-center gap-2 rounded-lg border border-amber-400/25 bg-amber-400/10 px-3 py-1.5 text-xs font-medium text-amber-100 transition hover:bg-amber-400/20"
+              >
+                <svg viewBox="0 0 24 24" class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <rect x="3" y="5" width="7" height="11" rx="2" /><rect x="14" y="5" width="7" height="11" rx="2" />
+                </svg>
+                Encontrar 2 juntos
+              </button>
+              <span id="juntos-msg" class="text-[11px] text-red-300"></span>
+            </div>
+
+            <div class="flex items-center gap-4 text-[11px] text-zinc-300">
+              <span class="flex items-center gap-1.5">
+                <svg viewBox="0 0 24 24" class="h-5 w-5 text-zinc-300" fill="currentColor" stroke="#0a0a0d" stroke-width="0.7" aria-hidden="true">
+                  <rect x="6" y="2" width="12" height="10" rx="3.5" /><rect x="2" y="9" width="5" height="10" rx="2.2" /><rect x="17" y="9" width="5" height="10" rx="2.2" /><rect x="5" y="12" width="14" height="7" rx="2.5" />
+                </svg>
+                Disponible
+              </span>
+              <span class="flex items-center gap-1.5">
+                <svg viewBox="0 0 24 24" class="h-5 w-5 text-emerald-400" fill="currentColor" stroke="#0a0a0d" stroke-width="0.7" aria-hidden="true">
+                  <rect x="6" y="2" width="12" height="10" rx="3.5" /><rect x="2" y="9" width="5" height="10" rx="2.2" /><rect x="17" y="9" width="5" height="10" rx="2.2" /><rect x="5" y="12" width="14" height="7" rx="2.5" />
+                </svg>
+                Seleccionado
+              </span>
+              <span class="flex items-center gap-1.5">
+                <svg viewBox="0 0 24 24" class="h-5 w-5 text-zinc-700" fill="currentColor" stroke="#0a0a0d" stroke-width="0.7" aria-hidden="true">
+                  <rect x="6" y="2" width="12" height="10" rx="3.5" /><rect x="2" y="9" width="5" height="10" rx="2.2" /><rect x="17" y="9" width="5" height="10" rx="2.2" /><rect x="5" y="12" width="14" height="7" rx="2.5" />
+                </svg>
+                Ocupado
+              </span>
+            </div>
+          </div>
+        </section>
+
+        <!-- ─────── Checkout ─────── -->
+        <aside
+          class="self-start rounded-2xl border border-amber-400/15 border-t-2 border-t-amber-400 bg-gradient-to-b from-[#1b0b10]/95 to-[#0b0a0c]/95 p-5 shadow-xl shadow-black/40 lg:sticky lg:top-6"
+        >
+          <h3 class="flex items-center gap-2 text-lg font-semibold text-white">
+            <svg viewBox="0 0 24 24" class="h-5 w-5 text-amber-400" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+              <path d="M3 8a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v2a2 2 0 0 0 0 4v2a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2a2 2 0 0 0 0-4V8Z" />
+              <path d="M14 6v12" stroke-dasharray="2 2" />
+            </svg>
+            Tu reserva
+          </h3>
+
+          <div class="mt-4 flex gap-3 rounded-xl border border-amber-400/10 bg-white/[0.03] p-3">
+            <div class="h-[84px] w-[58px] shrink-0 overflow-hidden rounded-md bg-zinc-900">
+              <img
+                src="https://image.tmdb.org/t/p/w154/78lPtwv72eTNqFW9COBYI0dWDJa.jpg"
+                alt="Iron Man"
+                class="h-full w-full object-cover"
+                onerror="this.style.display='none'"
+              />
+            </div>
+            <div class="min-w-0">
+              <p class="text-sm font-semibold leading-snug text-white">Iron Man (2008)</p>
+              <p class="mt-1 text-[11px] text-zinc-400">Cines Felix · Sala 01</p>
+            </div>
+          </div>
+
+          <details id="checkout-detalle" class="group mt-5 opacity-50">
+            <summary
+              class="flex cursor-pointer list-none items-center justify-between text-xs font-semibold text-zinc-200 [&::-webkit-details-marker]:hidden"
+            >
+              <span>Asientos</span>
+              <span class="flex items-center gap-2">
+                <span id="checkout-asientos-hint" class="text-[11px] font-normal text-zinc-500">Selecciona en el plano</span>
+                <svg viewBox="0 0 24 24" class="h-4 w-4 text-amber-400 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <path d="m6 9 6 6 6-6" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </span>
+            </summary>
+            <div id="checkout-asientos" class="mt-3 flex flex-wrap gap-1.5 text-[11px]"></div>
+          </details>
+
+          <div id="checkout-panel" class="mt-4 border-t border-dashed border-amber-400/25 pt-4">
+            <div class="flex items-center justify-between text-xs text-zinc-400">
+              <span>Total Entradas</span>
+              <span id="checkout-entradas" class="font-semibold text-white">0</span>
+            </div>
+            <div class="mt-3 flex items-baseline justify-between">
+              <span class="text-sm text-zinc-300">Total</span>
+              <span id="checkout-total" class="text-2xl font-bold text-amber-300">0,00 €</span>
+            </div>
+          </div>
+
+          <button
+            id="btn-checkout"
+            disabled
+            class="mt-5 w-full cursor-not-allowed rounded-lg border border-amber-400/20 bg-gradient-to-r from-amber-500/10 to-red-600/10 py-2.5 text-sm font-semibold tracking-wide text-amber-200/40"
+          >
+            CHECKOUT
+          </button>
+        </aside>
+      </main>
+    </div>
+
+    <footer class="border-t border-amber-400/10 py-4 text-center text-[11px] text-zinc-600">
+      &copy; 2026 Cines Felix — Proyecto educativo
+    </footer>
+
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
